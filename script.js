@@ -1,53 +1,72 @@
 // ===============================
-// Falling Roses
+// Sparkles Animation
 // ===============================
-function createRose() {
 
-    const rose = document.createElement("div");
+function createSparkle() {
 
-    rose.innerHTML = "🌹";
+    const sparkle = document.createElement("div");
 
-    rose.style.position = "fixed";
-    rose.style.left = Math.random() * 100 + "vw";
-    rose.style.top = "-50px";
-    rose.style.fontSize = (20 + Math.random() * 20) + "px";
-    rose.style.animation = "roseFall 8s linear forwards";
-    rose.style.zIndex = "9999";
-    rose.style.pointerEvents = "none";
+    sparkle.innerHTML = "✨";
 
-    document.body.appendChild(rose);
+    sparkle.style.position = "fixed";
+    sparkle.style.left = Math.random() * window.innerWidth + "px";
+    sparkle.style.top = Math.random() * window.innerHeight + "px";
+    sparkle.style.fontSize = (10 + Math.random() * 20) + "px";
+    sparkle.style.pointerEvents = "none";
+    sparkle.style.zIndex = "9999";
+    sparkle.style.animation = "sparkle 1.5s linear forwards";
+
+    document.body.appendChild(sparkle);
 
     setTimeout(() => {
-        rose.remove();
-    }, 8000);
+        sparkle.remove();
+    }, 1500);
 }
 
-setInterval(createRose, 800);
+setInterval(createSparkle, 200);
 
 
 // ===============================
-// Falling Stars
+// Automatic Confetti
 // ===============================
-function createStar() {
 
-    const star = document.createElement("div");
+setInterval(() => {
 
-    star.innerHTML = "⭐";
+    confetti({
+        particleCount: 180,
+        spread: 180,
+        startVelocity: 35,
+        ticks: 250,
+        origin: {
+            x: Math.random(),
+            y: Math.random() * 0.5
+        }
+    });
 
-    star.style.position = "fixed";
-    star.style.left = Math.random() * 100 + "vw";
-    star.style.top = "-30px";
-    star.style.fontSize = "20px";
-    star.style.animation = "starFall 6s linear forwards";
-    star.style.zIndex = "9999";
-    star.style.pointerEvents = "none";
+}, 4000);
 
-    document.body.appendChild(star);
 
-    setTimeout(() => {
-        star.remove();
-    }, 6000);
+// ===============================
+// Sparkle Animation CSS
+// ===============================
+
+const style = document.createElement("style");
+
+style.innerHTML += `
+
+@keyframes sparkle{
+
+0%{
+opacity:1;
+transform:scale(0.5) rotate(0deg);
 }
 
-setInterval(createStar, 1000);
+100%{
+opacity:0;
+transform:translateY(-80px) scale(2) rotate(360deg);
+}
+
+}
+`;
+
 document.head.appendChild(style);
