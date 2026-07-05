@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday DSP ❤️</title>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
 <style>
 *{
     margin:0;
@@ -12,61 +14,149 @@
     box-sizing:border-box;
 }
 
-html,
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday DSP ❤️</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-}
-
 body{
     background:#000;
+    overflow:hidden;
 }
 
 img{
     width:100vw;
     height:100vh;
-    display:block;
     object-fit:contain;
+    display:block;
+}
+
+/* Sparkles */
+.sparkle{
+    position:fixed;
+    color:#ffd700;
+    pointer-events:none;
+    animation:sparkle 2s linear forwards;
+    z-index:9999;
+}
+
+@keyframes sparkle{
+    0%{
+        opacity:0;
+        transform:scale(0);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.6);
+    }
+    100%{
+        opacity:0;
+        transform:scale(0);
+    }
+}
+
+/* Floating Hearts */
+.heart{
+    position:fixed;
+    bottom:-30px;
+    color:#ff4d6d;
+    font-size:25px;
+    animation:floatHeart 8s linear forwards;
+    z-index:9998;
+}
+
+@keyframes floatHeart{
+    0%{
+        transform:translateY(0);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-110vh);
+        opacity:0;
+    }
 }
 </style>
-    <!-- Background Music -->
-<audio id="bgMusic" loop>
+
+</head>
+
+<body>
+
+<img src="photo.jpg" alt="Birthday">
+
+<!-- Background Music -->
+<audio id="bgMusic" loop autoplay>
     <source src="music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
 </audio>
 
 <script>
-window.addEventListener("load", function () {
-    const music = document.getElementById("bgMusic");
+// Background Music
+window.onload=()=>{
+const music=document.getElementById("bgMusic");
 
-    // Try autoplay
-    music.play().catch(() => {
-        // If autoplay is blocked, play on the first user interaction
-        const startMusic = () => {
-            music.play();
-            document.removeEventListener("click", startMusic);
-            document.removeEventListener("touchstart", startMusic);
-        };
-
-        document.addEventListener("click", startMusic);
-        document.addEventListener("touchstart", startMusic);
-    });
+music.play().catch(()=>{
+document.body.addEventListener("click",()=>{
+music.play();
+},{once:true});
 });
+};
+
+// Sparkles
+function sparkle(){
+const s=document.createElement("div");
+s.className="sparkle";
+s.innerHTML="✨";
+s.style.left=Math.random()*window.innerWidth+"px";
+s.style.top=Math.random()*window.innerHeight+"px";
+s.style.fontSize=(10+Math.random()*25)+"px";
+document.body.appendChild(s);
+
+setTimeout(()=>{
+s.remove();
+},2000);
+}
+
+setInterval(sparkle,200);
+
+// Floating Hearts
+function heart(){
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*window.innerWidth+"px";
+h.style.fontSize=(20+Math.random()*25)+"px";
+document.body.appendChild(h);
+
+setTimeout(()=>{
+h.remove();
+},8000);
+}
+
+setInterval(heart,600);
+
+// Automatic Confetti
+function shootConfetti(){
+confetti({
+particleCount:180,
+spread:100,
+origin:{y:0.6}
+});
+
+confetti({
+particleCount:120,
+angle:60,
+spread:70,
+origin:{x:0}
+});
+
+confetti({
+particleCount:120,
+angle:120,
+spread:70,
+origin:{x:1}
+});
+}
+
+shootConfetti();
+setInterval(shootConfetti,4000);
 </script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-</head>
-<body>
-
-<img src="photo.jpg" alt="Happy Birthday DSP">
 
 </body>
 </html>
